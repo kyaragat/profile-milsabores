@@ -1,14 +1,17 @@
 package com.milsabores.profile.service;
 
-import com.milsabores.profile.entity.User;
-import com.milsabores.profile.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
+import com.milsabores.profile.model.User;
+import com.milsabores.profile.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

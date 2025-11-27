@@ -1,13 +1,18 @@
 package com.milsabores.profile.controller;
 
-import com.milsabores.profile.dto.UserResponse;
-import com.milsabores.profile.entity.User;
-import com.milsabores.profile.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.milsabores.profile.dto.UserResponse;
+import com.milsabores.profile.model.User;
+import com.milsabores.profile.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/users")
