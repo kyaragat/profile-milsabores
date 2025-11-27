@@ -27,16 +27,24 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
 
-            final UserDetails userDetails = userService.loadUserByUsername(request.getEmail());
-            final String jwt = jwtUtil.generateToken(userDetails);
+            User user = userService.findByEmail(request.getEmail());
+            final String jwt = jwtUtil.generateToken(user);
 
             System.out.println("=== JWT SECURITY DEBUG ===");
             System.out.println("JWT generated for user: " + request.getEmail());
+            System.out.println("User ID: " + user.getId());
+            System.out.println("User role FROM DB: " + user.getRole());
+            System.out.println("User role TYPE: " + user.getRole().getClass().getSimpleName());
             System.out.println("JWT Token: " + jwt);
             System.out.println("JWT Expiration: " + jwtUtil.extractExpiration(jwt));
+            
+            // Verificar qué se está devolviendo en la response
+            AuthResponse response = new AuthResponse(jwt, "Login successful", user.getEmail(), 
+                                  user.getFirstName(), user.getLastName(), user.getRole());
+            System.out.println("Response role: " + response.getRole());
             System.out.println("=== END SECURITY DEBUG ===");
 
-            return new AuthResponse(jwt, "Login successful");
+            return response;
         } catch (Exception e) {
             throw new RuntimeException("Invalid credentials");
         }
@@ -50,14 +58,15 @@ public class AuthService {
             request.getLastName()
         );
 
-        final UserDetails userDetails = userService.loadUserByUsername(user.getEmail());
-        final String jwt = jwtUtil.generateToken(userDetails);
+        final String jwt = jwtUtil.generateToken(user);
 
         System.out.println("=== JWT SECURITY DEBUG ===");
         System.out.println("JWT generated for new user: " + request.getEmail());
+        System.out.println("User role: " + user.getRole());
         System.out.println("JWT Token: " + jwt);
         System.out.println("=== END SECURITY DEBUG ===");
 
-        return new AuthResponse(jwt, "User registered successfully");
+        return new AuthResponse(jwt, "User registered successfully", user.getEmail(),
+                              user.getFirstName(), user.getLastName(), user.getRole());
     }
 }

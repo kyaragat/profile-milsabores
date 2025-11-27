@@ -25,11 +25,11 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                new ArrayList<>()
-        );
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .roles(user.getRole().name())
+                .build();
     }
 
     public User registerUser(String email, String password, String firstName, String lastName) {
@@ -47,7 +47,15 @@ public class UserService implements UserDetailsService {
     }
 
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        
+        System.out.println("=== USER SERVICE DEBUG ===");
+        System.out.println("Found user ID: " + user.getId());
+        System.out.println("Found user email: " + user.getEmail());
+        System.out.println("Found user role: " + user.getRole());
+        System.out.println("=== END USER SERVICE DEBUG ===");
+        
+        return user;
     }
 }
