@@ -32,6 +32,7 @@ public class UserController {
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
+                user.getRole(),
                 user.getCreatedAt()
             ))
             .collect(Collectors.toList());
