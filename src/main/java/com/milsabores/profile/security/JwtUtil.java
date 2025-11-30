@@ -14,7 +14,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private final String SECRET_KEY = "mySecretKeyForJWTGenerationInMilSaboresApplication2024";
+    private final String SECRET_KEY = "mySecretKeySuperSeguraDeEjemplomySecretKeySuperSeguraDeEjemplomySecretKeySuperSeguraDeEjemplo";
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
 
     private Key getSigningKey() {
@@ -35,6 +35,19 @@ public class JwtUtil {
 
     public String extractLastName(String token) {
         return extractClaim(token, claims -> claims.get("lastName", String.class));
+    }
+
+    public Long extractUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        Object userIdObj = claims.get("userId");
+        if (userIdObj instanceof Integer) {
+            return ((Integer) userIdObj).longValue();
+        } else if (userIdObj instanceof Long) {
+            return (Long) userIdObj;
+        } else if (userIdObj instanceof String) {
+            return Long.parseLong((String) userIdObj);
+        }
+        return null;
     }
 
     public Date extractExpiration(String token) {
