@@ -37,6 +37,10 @@ public class JwtUtil {
         return extractClaim(token, claims -> claims.get("lastName", String.class));
     }
 
+    public Long extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("userId", Long.class));
+    }
+
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
